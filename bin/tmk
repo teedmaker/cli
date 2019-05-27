@@ -1,0 +1,64 @@
+#!/usr/bin/env node
+'use strict'
+
+const meow = require('meow')
+const ora = require('ora')
+
+let cli = meow({
+  autoHelp: false,
+  help: `
+  Usage
+    $ tmk <commands>
+
+  Commands
+    - create --help     # see all create commands
+`
+})
+
+const spinner = ora()
+let command = null
+
+if (cli.input.length === 0 && (cli.flags.help || cli.flags.h)) {
+  cli.showHelp()
+  process.exit()
+}
+
+if (cli.input.length === 0 && (cli.flags.version || cli.flags.v)) {
+  cli.showVersion()
+  process.exit()
+}
+
+switch (cli.input[0]) {
+  case 'h':
+  case 'help':
+    cli.showHelp()
+    process.exit()
+  case 'v':
+  case 'version':
+    cli.showVersion()
+    process.exit()
+  case 'create':
+    const create = require('./tmk-create')(cli, spinner)
+    command = create.run
+    cli = create.cli
+    break
+}
+
+if (command === null) {
+  spinner.fail('You need to pass an param.\n\nSee --help')
+  spinner.stop()
+  console.log()
+  process.exit()
+}
+
+spinner.succeed(`Ok! Executing the command ${cli.input[0]}.`)
+
+command()
+  .then(function (response) {
+    spinner.succeed(response)
+    process.exit()
+  })
+  .catch(function (error) {
+    spinner.fail(error.message)
+    process.exit()
+  })

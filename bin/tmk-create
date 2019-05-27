@@ -1,0 +1,143 @@
+#!/usr/bin/env node
+'use strict'
+
+const fse = require('fs-extra')
+const meow = require('meow')
+
+let cli = null
+let spinner = null
+
+const formatName = (value) => {
+  return value.split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ')
+}
+
+function Run () {
+  return new Promise((resolve, reject) => {
+    const type = cli.input[1]
+    if (type === undefined) {
+      reject(new Error(`No one param passed in \`create\` command`))
+    }
+    if (!executeAMethod[type]) {
+      reject(new Error(`The command ${type} was not found`))
+    }
+    const name = cli.input[2]
+    if (name === undefined) {
+      reject(new Error(`The command ${type} need a name.\n\n\te.g.:\n\t$ tmkr create ${type} name`))
+    }
+
+    spinner
+      .stop()
+      .succeed(`Ok! Creating the${cli.flags.blank ? ' blank ' : ' '}${type}.`)
+
+    executeAMethod[type](name, resolve, reject)
+  })
+}
+
+const executeAMethod = {
+  controller (name, resolve, reject) {
+    const controller = formatName(name)
+    let path = cli.flags.path || './src/controllers/'
+    path += path.substr(-1) === '/' ? '' : '/'
+    const file = `${path}${controller}Controller.php`
+    let content = cli.flags.blank ? '' : `<?php\n
+/**
+ *
+ * This class was be create automatically from \`Teed Maker Cli\`!
+ * You can see how here:
+ * https://github.com/teedmaker/cli
+ *
+ **/\n
+class ${controller}Controller
+{
+  public function home()
+  {
+    return $this->view('home.index');
+  }
+}\n\n`
+    fse.outputFile(file, content, function (error) {
+      if (error) reject(error)
+      resolve(`Ok! Controller ${controller} created at ${file}.`)
+    })
+  },
+  //
+  service (name, resolve, reject) {
+    const service = formatName(name)
+    let path = cli.flags.path || './src/services/'
+    path += path.substr(-1) === '/' ? '' : '/'
+    const file = `${path}${service}.php`
+    let content = cli.flags.blank ? '' : `<?php\n
+/**
+ *
+ * This class was be create automatically from \`Teed Maker Cli\`!
+ * You can see how here:
+ * https://github.com/teedmaker/cli
+ *
+ **/\n
+use App\\Services\\Base as Base;\n\n
+class ${service} extends Base
+{
+  public function all()
+  {
+    return $this->fetchAll();
+  }
+}\n\n`
+    fse.outputFile(file, content, function (error) {
+      if (error) reject(error)
+      resolve(`Ok! Service ${service} created at ${file}.`)
+    })
+  },
+  //
+  view (name, resolve, reject) {
+    let path = cli.flags.path || './src/views/'
+    path += path.substr(-1) === '/' ? '' : '/'
+    const file = `${path}${name}.php`
+    let content = '<h1>Hello Teed Maker CLI!</h1>\n'
+    fse.outputFile(file, content, function (error) {
+      if (error) reject(error)
+      resolve(`Ok! View ${name} created at ${file}.`)
+    })
+  }
+}
+
+module.exports = function (_cli, _spinner) {
+  cli = _cli
+  spinner = _spinner
+  cli = meow(`
+    Create command usage:
+      $ tmk create <input>
+
+    Commands
+      - controller <name> --params     # create a new controller
+      - service <name> --params        # create a new service
+      - view <path/to/file> --params   # create a new view
+
+    Parameters
+
+      controller | service | view
+      ------------------------------------
+      --path | -p
+        - replaces the default path and create into it
+        - e.g. [...] --path='new/path/controllers'
+      --blank | -b
+        - create a blank file
+
+      e.g. creating a blank service on my/path/Example.php
+        $ tmk create service example -p='my/path' --blank
+  `, {
+    flags: {
+      path: {
+        type: 'string',
+        alias: 'p'
+      },
+      blank: {
+        type: 'boolean',
+        default: false,
+        alias: 'b'
+      }
+    }
+  })
+  return {
+    run: () => new Run(),
+    cli: cli
+  }
+}

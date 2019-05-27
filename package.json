@@ -4,7 +4,7 @@
   "description": "A tool to help in development",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tmaker": "./bin/tmaker"
   },
   "repository": {
     "type": "git",
@@ -16,10 +16,22 @@
     "help",
     "tool"
   ],
-  "author": "Tadeu Barbosa <tadeufbarbosa@gmail.com>",
+  "author": {
+    "name": "Tadeu Barbosa",
+    "email": "tadeufbarbosa@gmail.com",
+    "url": "https://github.com/tadeubarbosa"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/teedmaker/cli/issues"
   },
-  "homepage": "https://github.com/teedmaker/cli#readme"
+  "homepage": "https://github.com/teedmaker/cli#readme",
+  "dependencies": {
+    "fs-extra": "^8.0.1",
+    "meow": "^5.0.0",
+    "ora": "^3.4.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }
