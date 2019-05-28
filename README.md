@@ -52,15 +52,15 @@ e.g.:
 
 This will create a service `Users` in `src/services/Users.php`.
 
-#### create vie path/name
+#### create view path/name
 
 This command enables you to create a view file. The default path is `src/views`, and can be changed with the flag `--path='new/path/to/views'` (or just `-p=new/path`). The flag `--blank` (or `-b`) can be passed to, if you want to create a blank view file.
 
 e.g.:
 
-> tmk create route users/index
+> tmk create view users/index
 
-This will create a route file in `src/routes/users/index.php`.
+This will create a view file in `src/views/users/index.php`.
 
 ----
 
