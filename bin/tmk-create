@@ -13,23 +13,20 @@ const formatName = (value) => {
 
 function Run () {
   return new Promise((resolve, reject) => {
-    const type = cli.input[1]
-    if (type === undefined) {
-      reject(new Error(`No one param passed in \`create\` command`))
+    let method = cli.input[1]
+    if (method === undefined) {
+      throw new Error(`No one param passed in \`create\` command.\n  See: $ tmk create --help`)
     }
-    if (!executeAMethod[type]) {
-      reject(new Error(`The command ${type} was not found`))
+    if (!executeAMethod.hasOwnProperty(method)) {
+      throw new Error(`The method ${method} was not found`)
     }
     const name = cli.input[2]
     if (name === undefined) {
-      reject(new Error(`The command ${type} need a name.\n\n\te.g.:\n\t$ tmkr create ${type} name`))
+      throw new Error(`The method ${method} need a name.\n  e.g.:\n  $ tmkr create ${method} name`)
     }
+    spinner.start(`Gererating the${cli.flags.blank ? ' blank ' : ' '}${method}.`)
 
-    spinner
-      .stop()
-      .succeed(`Ok! Creating the${cli.flags.blank ? ' blank ' : ' '}${type}.`)
-
-    executeAMethod[type](name, resolve, reject)
+    executeAMethod[method](name, resolve, reject)
   })
 }
 
@@ -56,7 +53,7 @@ class ${controller}Controller
 }\n\n`
     fse.outputFile(file, content, function (error) {
       if (error) reject(error)
-      resolve(`Ok! Controller ${controller} created at ${file}.`)
+      resolve(`Controller ${controller} created at ${file}.`)
     })
   },
   //
@@ -83,7 +80,7 @@ class ${service} extends Base
 }\n\n`
     fse.outputFile(file, content, function (error) {
       if (error) reject(error)
-      resolve(`Ok! Service ${service} created at ${file}.`)
+      resolve(`Service ${service} created at ${file}.`)
     })
   },
   //
@@ -94,7 +91,7 @@ class ${service} extends Base
     let content = '<h1>Hello Teed Maker CLI!</h1>\n'
     fse.outputFile(file, content, function (error) {
       if (error) reject(error)
-      resolve(`Ok! View ${name} created at ${file}.`)
+      resolve(`View ${name} created at ${file}.`)
     })
   }
 }

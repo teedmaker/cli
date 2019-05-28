@@ -18,25 +18,18 @@ let cli = meow({
 const spinner = ora()
 let command = null
 
-if (cli.input.length === 0 && (cli.flags.help || cli.flags.h)) {
-  cli.showHelp()
-  process.exit()
-}
-
-if (cli.input.length === 0 && (cli.flags.version || cli.flags.v)) {
-  cli.showVersion()
-  process.exit()
+if (cli.input.length === 0) {
+  if (cli.flags.help) cli.showHelp()
+  if (cli.flags.version) cli.showVersion()
 }
 
 switch (cli.input[0]) {
-  case 'h':
   case 'help':
     cli.showHelp()
-    process.exit()
-  case 'v':
+    break
   case 'version':
     cli.showVersion()
-    process.exit()
+    break
   case 'create':
     const create = require('./tmk-create')(cli, spinner)
     command = create.run
@@ -45,13 +38,14 @@ switch (cli.input[0]) {
 }
 
 if (command === null) {
-  spinner.fail('You need to pass an param.\n\nSee --help')
-  spinner.stop()
-  console.log()
+  spinner
+    .fail('You need to pass one command.\n  See --help')
+    .stop()
   process.exit()
 }
 
-spinner.succeed(`Ok! Executing the command ${cli.input[0]}.`)
+spinner
+  .start(`Ok! Executing the command ${cli.input[0]}.`)
 
 command()
   .then(function (response) {
