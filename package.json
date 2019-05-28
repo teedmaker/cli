@@ -1,6 +1,6 @@
 {
   "name": "@teedmaker/cli",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A tool to help in development",
   "main": "main.js",
   "scripts": {
