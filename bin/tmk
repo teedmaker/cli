@@ -18,8 +18,10 @@ let cli = meow({
 const spinner = ora()
 let command = null
 
-if (cli.flags.help || (cli.input.length && cli.input[0] === 'help')) cli.showHelp()
-if (cli.flags.version || (cli.input.length && cli.input[0] === 'version')) cli.showVersion()
+if (!cli.input[0]) {
+  if (cli.flags.help || (cli.input.length && cli.input[0] === 'help')) cli.showHelp()
+  if (cli.flags.version || (cli.input.length && cli.input[0] === 'version')) cli.showVersion()
+}
 
 switch (cli.input[0]) {
   case 'create':
