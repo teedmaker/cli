@@ -35,22 +35,8 @@ const executeAMethod = {
     const controller = formatName(name)
     let path = cli.flags.path || './src/controllers/'
     path += path.substr(-1) === '/' ? '' : '/'
-    const file = `${path}${controller}Controller.php`
-    let content = cli.flags.blank ? '' : `<?php\n
-/**
- *
- * This class was be create automatically from \`Teed Maker Cli\`!
- * You can see how here:
- * https://github.com/teedmaker/cli
- *
- **/\n
-class ${controller}Controller
-{
-  public function home()
-  {
-    return $this->view('home.index');
-  }
-}\n\n`
+    const file = `${path}${controller}.php`
+    let content = cli.flags.blank ? '' : require('../models/controller.js')(controller);
     fse.outputFile(file, content, function (error) {
       if (error) reject(error)
       resolve(`Controller ${controller} created at ${file}.`)
@@ -62,22 +48,7 @@ class ${controller}Controller
     let path = cli.flags.path || './src/services/'
     path += path.substr(-1) === '/' ? '' : '/'
     const file = `${path}${service}.php`
-    let content = cli.flags.blank ? '' : `<?php\n
-/**
- *
- * This class was be create automatically from \`Teed Maker Cli\`!
- * You can see how here:
- * https://github.com/teedmaker/cli
- *
- **/\n
-use App\\Services\\Base as Base;\n\n
-class ${service} extends Base
-{
-  public function all()
-  {
-    return $this->fetchAll();
-  }
-}\n\n`
+    let content = cli.flags.blank ? '' : require('../models/controller.js')(service);
     fse.outputFile(file, content, function (error) {
       if (error) reject(error)
       resolve(`Service ${service} created at ${file}.`)
