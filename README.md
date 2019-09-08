@@ -1,4 +1,4 @@
-# Welcome to: Teed Maker CLI or just `tmk`
+# Bem vindo ao `Teed Maker CLI`, ou implesmente: `tmk`
 
 ```
   _                _                   _
@@ -14,56 +14,57 @@
 [![GitHub issues](https://img.shields.io/github/issues/teedmaker/cli.svg)](https://github.com/teedmaker/cli/issues) 
 [![npm (scoped)](https://img.shields.io/npm/v/@teedmaker/cli.svg)](https://www.npmjs.com/package/@teedmaker/cli) 
 
-### let's start the party! :tada:
+### vamos iniciar a festa! :tada:
 
-Initially I want to say that I'm really proud of with this project, because a long time I was tried to made some thing like this one. For various reasons I was fail, my programming skills was not good yet and a lot of things.
+Inicialmente eu gostaria de dizer que estou realmente feliz com este projeto, porque há muito tempo venho tentando fazer algo parecido. 
+Mas por *diversos* motivos eu vinha falhando miseravelmente. Minhas habilidades não eram tão boas, meus conhecimentos etc.
 
-So, I will explain how it works.
+Vamos lá então!
 
 ---
 
-For now have little methods that you can use.
+Ainda não existem muitas funções que você possa usar, este projeto *encontra-se em desenvolvimento*.
 
-And here they are:
+Aqui estão as funções:
 
 ### create
 
-usage:
+uso:
 
 > tmk create [methods]
 
-#### create controller name
+#### create controller nome
 
-This command will create a new controller. By default the path to controllers is `src/controllers`, but you can pass another with the flag: `--path='path/to/controllers'`, or just: `-p=path/to/controllers`. You can pass a another flag too (`--blank`, or just `-b`) to create a blank file.
+Este comando irá criar um novo controller. Por definição, o diretório para os controllers é `./src/controllers/`, mas você pode passar um outro com a flag: `--path='path/to/controllers'`, ou simplesmente: `-p=path/to/controllers`. Você também poderá passar uma outra flag: (`--blank`, ou: `-b`) para criar um arquivo em branco.
 
-e.g.:
+exemplo:
 
 > tmk create controller Home --path='new/path' --blank
 
-This will create a blank controller (`HomeController`), inside of `new/path/`.
+Este comando irá criar um controller em branco dentro do diretório `new/path/`.
 
-#### create service name
+#### create service nome
 
-This command will create a new service. By default the path to services is `src/services`, you can change it with the flag `--path='new/services'` (or just `-p=new/path`). To create a new blank file, you need to pass the flag `--blank` (or `-b`).
+Este comando criará um service. Por definição eles serão criados dentro de `src/services`, mas você pode alterar o destino utilizando: `--path='new/services'` (ou `-p=new/path`). Para criar um arquivo em brando você poderá passar a flag `--blank` (ou `-b`).
 
-e.g.:
+exemplo:
 
 > tmk create service users
 
-This will create a service `Users` in `src/services/Users.php`.
+Este comando criará o service `Users` em `src/services/Users.php`.
 
-#### create view path/name
+#### create view caminho/para/a/view
 
-This command enables you to create a view file. The default path is `src/views`, and can be changed with the flag `--path='new/path/to/views'` (or just `-p=new/path`). The flag `--blank` (or `-b`) can be passed to, if you want to create a blank view file.
+Este comando permite a criação de um arquivo view. O diretório padrão é: `src/views`, e pode ser alterado com a flag `--path='novo/caminho'` (ou simplesmente `-p=new/path`). A flag `--blank` (ou `-b`) pode ser passada também caso você queira criar uma view em brando.
 
-e.g.:
+exemplo:
 
 > tmk create view users/index
 
-This will create a view file in `src/views/users/index.php`.
+Isto criará uma view em `src/views/users/index.php`.
 
 ----
 
-### For now, it's all!
+### Isto é tudo, pessoal! :wink:
 
-Some features will be added. For now it's look like a experiment. So, if you want to contribute, fork and work in it! Or create a new `issue`! :+1:
+Mais atualizações em breve! Por enquanto é só um experimento. Então, caso queira contribuir, dê um fork ou crie novas issues! :+1:
